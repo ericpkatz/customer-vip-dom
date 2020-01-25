@@ -56,15 +56,24 @@
       { id: 4, name: 'shep', email: 'shep@gmail.com', dateJoined: '03/19/2000'},
      ];
 
+    customers.forEach( customer => {
+      customer.dateJoined = new Date(customer.dateJoined);
+    });
+
+
+    customers.sort((a, b)=> a.dateJoined - b.dateJoined);
+
 
     const list = document.querySelector('#customers');
 
 
     const render = ()=> {
       let html = customers.map( customer => {
+        const diff = new Date() - customer.dateJoined;
+        const oneYear = 1000*60*60*24*365;
         return `
           <li class='${ customer.isVIP ? 'vip': ''}'>
-            ${ customer.name } Joined On ${ customer.dateJoined }
+            ${ customer.name } Joined On ${ customer.dateJoined.toLocaleDateString() }. Has been a customer for ${(diff/oneYear).toFixed(2)} years.
           </li>
         `;
       }).join('');
